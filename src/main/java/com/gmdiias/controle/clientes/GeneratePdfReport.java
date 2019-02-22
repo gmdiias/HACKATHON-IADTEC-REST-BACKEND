@@ -1,5 +1,11 @@
 package com.gmdiias.controle.clientes;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -9,11 +15,6 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class GeneratePdfReport {
 
@@ -28,12 +29,14 @@ public class GeneratePdfReport {
 
         try {
 
-            PdfPTable table = new PdfPTable(3);
+
+            PdfPTable table = new PdfPTable(4);
+           
             table.setWidthPercentage(60);
-            table.setWidths(new int[]{1, 3, 3});
+            table.setWidths(new int[]{1, 3, 3, 3});
 
             Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
-
+            
             PdfPCell hcell;
             hcell = new PdfPCell(new Phrase("Id", headFont));
             hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -43,7 +46,11 @@ public class GeneratePdfReport {
             hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(hcell);
 
-            hcell = new PdfPCell(new Phrase("Population", headFont));
+            hcell = new PdfPCell(new Phrase("Cpf", headFont));
+            hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(hcell);
+
+            hcell = new PdfPCell(new Phrase("Estado", headFont));
             hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(hcell);
 
@@ -64,13 +71,22 @@ public class GeneratePdfReport {
 
                 cell = new PdfPCell(new Phrase(String.valueOf(client.getCpf())));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setPaddingRight(5);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(String.valueOf(client.getEstado().getNome())));
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell.setPaddingRight(5);
                 table.addCell(cell);
             }
 
             PdfWriter.getInstance(document, out);
             document.open();
+
+            Element header = null;
+            
             document.add(table);
             
             document.close();
