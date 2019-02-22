@@ -34,5 +34,5 @@ public class ClienteService extends BasicService<Cliente, ClienteRepository> {
 	public List<Cliente> findFilter(Optional<String> nome, Optional<Date> data, Optional<String> situacao) {
 		return repository.findRelatorioByFiltros(nome, data, situacao);
 	}
-	
+
 }

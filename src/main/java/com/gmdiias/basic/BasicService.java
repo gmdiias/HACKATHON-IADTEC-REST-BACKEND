@@ -45,4 +45,8 @@ public class BasicService<T extends BasicEntity, R extends BasicRepository<T>> {
             repository.deleteById(id);            
         }        
     }
+    
+    public long countAll() {
+    	return repository.count();
+    }
 }

@@ -76,5 +76,10 @@ public abstract class BasicController<T extends BasicEntity, R extends BasicRepo
 		service.delete(id);
 		return ResponseEntity.ok().build();
 	}
+	
+	@GetMapping(path = { "count" })
+	public ResponseEntity<Long> countAll() {
+		return ResponseEntity.ok().body(service.countAll());
+	}
 
 }

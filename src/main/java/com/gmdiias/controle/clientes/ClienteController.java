@@ -47,4 +47,5 @@ public class ClienteController extends BasicController<Cliente, ClienteRepositor
 			) {
 			return service.findFilter(nome, data, situacao);
 	}
+	
 }
