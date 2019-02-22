@@ -4,9 +4,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -25,6 +28,7 @@ public class Cliente extends BasicEntity {
 	private String nome;
 	@Column(name = "cpf")
 	private String cpf;
+	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 	@Email
 	@Column(name = "email")
@@ -33,7 +37,7 @@ public class Cliente extends BasicEntity {
 	@NotNull
 	private Estado estado;
 	
-	@Enumerated
+	@Enumerated(value = EnumType.STRING)
 	private Situacao situacao;
 
 	public String getNome() {

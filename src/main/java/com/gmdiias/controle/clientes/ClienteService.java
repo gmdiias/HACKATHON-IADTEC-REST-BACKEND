@@ -1,5 +1,7 @@
 package com.gmdiias.controle.clientes;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -28,5 +30,9 @@ public class ClienteService extends BasicService<Cliente, ClienteRepository> {
 		
         return repository.save(entity);
     }
+	
+	public List<Cliente> findFilter(Optional<String> nome, Optional<Date> data, Optional<String> situacao) {
+		return repository.findRelatorioByFiltros(nome, data, situacao);
+	}
 	
 }

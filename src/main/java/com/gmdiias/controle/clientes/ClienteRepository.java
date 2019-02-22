@@ -5,6 +5,6 @@ import javax.transaction.Transactional;
 import com.gmdiias.basic.BasicRepository;
 
 @Transactional
-public interface ClienteRepository extends BasicRepository<Cliente> {
+public interface ClienteRepository extends BasicRepository<Cliente>, ClienteRepositoryCustom {
 
 }
