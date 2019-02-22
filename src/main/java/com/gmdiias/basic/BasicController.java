@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +28,13 @@ public abstract class BasicController<T extends BasicEntity, R extends BasicRepo
 		}
 
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/search")
+	public ResponseEntity<Page<T>> search(@RequestBody CustomPageable customPageable) {
+		System.out.println(String.format("pageSize: %d, pageNumber: %d", customPageable.getPageSize(), customPageable.getPageNumber()));
+		Page<T> page = service.findAll(customPageable);
+		return ResponseEntity.ok().body(page);
 	}
 
 	@GetMapping("/{id}")
