@@ -19,10 +19,10 @@ public class ClienteTest {
 	@Test
 	public void ClienteCadastroTest() {
 		Cliente cliente = new Cliente();
-		cliente.setNome("Carolina Bárbara Daiane Gomes");
-		cliente.setNomeMae("Milena Regina");
-		cliente.setNomePai("Renato Luís Anthony Gomes");
-		cliente.setTurma("Turma 1");
+		cliente.setNome("Carolina Bï¿½rbara Daiane Gomes");
+//		cliente.setNomeMae("Milena Regina");
+//		cliente.setNomePai("Renato Luï¿½s Anthony Gomes");
+//		cliente.setTurma("Turma 1");
 		
 		Cliente saved = clienteService.save(cliente);
 		

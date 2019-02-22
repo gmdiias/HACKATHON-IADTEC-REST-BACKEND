@@ -1,4 +1,4 @@
-package com.gmdiias.controle.produtos;
+package com.gmdiias.controle.compra;
 
 import javax.transaction.Transactional;
 
@@ -8,6 +8,6 @@ import com.gmdiias.basic.BasicService;
 
 @Service
 @Transactional
-public class ProdutoService extends BasicService<Produto, ProdutoRepository> {
-
+public class EstadoService extends BasicService<Estado, EstadoRepository> {
+	
 }

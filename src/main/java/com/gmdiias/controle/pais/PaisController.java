@@ -1,4 +1,4 @@
-package com.gmdiias.controle.produtos;
+package com.gmdiias.controle.pais;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gmdiias.basic.BasicController;
 
 @RestController
-@RequestMapping("api/produto")
-public class ProdutoController extends BasicController<Produto, ProdutoRepository, ProdutoService>{
+@RequestMapping("api/pais")
+public class PaisController extends BasicController<Pais, PaisRepository, PaisService>{
 }
