@@ -85,8 +85,6 @@ public class GeneratePdfReport {
             PdfWriter.getInstance(document, out);
             document.open();
 
-            Element header = null;
-            
             document.add(table);
             
             document.close();

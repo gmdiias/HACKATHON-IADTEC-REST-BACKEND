@@ -25,9 +25,12 @@ import com.gmdiias.basic.BasicController;
 public class ClienteController extends BasicController<Cliente, ClienteRepository, ClienteService> {
 
 	@RequestMapping(value = "/pdfreport", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
-	public ResponseEntity<InputStreamResource> citiesReport() throws IOException {
+	public ResponseEntity<InputStreamResource> clienteReport(
+			@RequestParam(value = "nome") Optional<String> nome,
+			@RequestParam(value = "situacao") Optional<String> situacao,
+			@RequestParam(value = "data") @DateTimeFormat(pattern = "dd/MM/yyyy") Optional<Date> data) throws IOException {
 		
-		ByteArrayInputStream bis = GeneratePdfReport.pdfClientes(service.findAll());
+		ByteArrayInputStream bis = GeneratePdfReport.pdfClientes(service.findFilter(nome, data, situacao));
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Disposition", "inline; filename=citiesreport.pdf");
