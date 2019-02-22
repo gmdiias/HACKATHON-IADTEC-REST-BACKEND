@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.gmdiias.controle.compra.Estado;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -30,56 +31,32 @@ public class GeneratePdfReport {
         try {
 
 
-            PdfPTable table = new PdfPTable(4);
+            PdfPTable table = new PdfPTable(6);
            
-            table.setWidthPercentage(60);
-            table.setWidths(new int[]{1, 3, 3, 3});
+            table.setWidthPercentage(80);
+            table.setWidths(new int[]{1, 3, 5, 3, 3, 3});
 
             Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
             
-            PdfPCell hcell;
-            hcell = new PdfPCell(new Phrase("Id", headFont));
-            hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.addCell(hcell);
-
-            hcell = new PdfPCell(new Phrase("Name", headFont));
-            hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.addCell(hcell);
-
-            hcell = new PdfPCell(new Phrase("Cpf", headFont));
-            hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.addCell(hcell);
-
-            hcell = new PdfPCell(new Phrase("Estado", headFont));
-            hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.addCell(hcell);
+            addHeaderColumn(table, headFont, "Id");
+			addHeaderColumn(table, headFont, "Name");
+			addHeaderColumn(table, headFont, "Cpf");
+			addHeaderColumn(table, headFont, "Situacao");
+			addHeaderColumn(table, headFont, "Estado");
+			addHeaderColumn(table, headFont, "Pais");
+			
 
             for (Cliente client : clientes) {
 
-                PdfPCell cell;
 
-                cell = new PdfPCell(new Phrase(Long.toString(client.getId())));
-                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase(client.getNome()));
-                cell.setPaddingLeft(5);
-                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase(String.valueOf(client.getCpf())));
-                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                cell.setPaddingRight(5);
-                table.addCell(cell);
-
-                cell = new PdfPCell(new Phrase(String.valueOf(client.getEstado().getNome())));
-                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                cell.setPaddingRight(5);
-                table.addCell(cell);
+                addOnCenter(table, Long.toString(client.getId()));
+                addOnLeft(table, client.getNome());
+                addOnCenter(table, client.getCpf());
+                addOnLeft(table, client.getSituacao().toString());
+                Estado estado = client.getEstado();
+				addOnLeft(table, estado.getNome());
+                addOnLeft(table, estado.getPais().getNome());
+                
             }
 
             PdfWriter.getInstance(document, out);
@@ -96,4 +73,28 @@ public class GeneratePdfReport {
 
         return new ByteArrayInputStream(out.toByteArray());
     }
+
+	private static void addOnLeft(PdfPTable table, String content) {
+		PdfPCell cell;
+        cell = new PdfPCell(new Phrase(content));
+        cell.setPaddingLeft(5);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        table.addCell(cell);
+	}
+
+	private static void addOnCenter(PdfPTable table, String content) {
+		PdfPCell cell;
+		cell = new PdfPCell(new Phrase(content));
+		cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+		cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+		table.addCell(cell);
+	}
+
+	private static void addHeaderColumn(PdfPTable table, Font headFont, String name) {
+		PdfPCell hcell;
+		hcell = new PdfPCell(new Phrase(name, headFont));
+		hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+		table.addCell(hcell);
+	}
 }
