@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public abstract class BasicController<T extends BasicEntity, R extends BasicRepository<T>, S extends BasicService<T, R>> {
 
@@ -29,11 +32,11 @@ public abstract class BasicController<T extends BasicEntity, R extends BasicRepo
 
 		return ResponseEntity.noContent().build();
 	}
-	
-	@GetMapping("/search")
-	public ResponseEntity<Page<T>> search(@RequestBody CustomPageable customPageable) {
-		System.out.println(String.format("pageSize: %d, pageNumber: %d", customPageable.getPageSize(), customPageable.getPageNumber()));
-		Page<T> page = service.findAll(customPageable);
+
+	@GetMapping(path = { "search" })
+	public ResponseEntity<Page<T>> search(@RequestParam(value = "search") Optional<String> search,
+			@Qualifier("page") Pageable pageable) {
+		Page<T> page = service.findAll(pageable);
 		return ResponseEntity.ok().body(page);
 	}
 
@@ -56,14 +59,14 @@ public abstract class BasicController<T extends BasicEntity, R extends BasicRepo
 	@PutMapping
 	public ResponseEntity<T> update(@RequestBody T recurso) {
 		Optional<T> updted = this.service.findOne(recurso.id);
-		
-		if(updted.isPresent()) {
+
+		if (updted.isPresent()) {
 			T entity = updted.get();
 			entity.mergeEntity(recurso);
 			T saved = this.service.save(entity);
 			return ResponseEntity.ok().body(saved);
 		}
-		
+
 		T saved = this.service.save(recurso);
 		return ResponseEntity.ok().body(saved);
 	}
